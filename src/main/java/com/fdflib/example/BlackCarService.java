@@ -2,16 +2,10 @@ package com.fdflib.example;
 
 import com.fdflib.example.model.Car;
 import com.fdflib.example.model.Driver;
-import com.fdflib.model.state.CommonState;
-import com.fdflib.persistence.database.DatabaseUtil;
-import com.fdflib.service.CommonServices;
-import com.fdflib.service.SystemServices;
-import com.fdflib.service.TenantServices;
-import com.fdflib.util.FdfSettings;
+import com.fdflib.service.
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by brian.gormanly on 10/9/15
@@ -28,9 +22,7 @@ public class BlackCarService {
         myModel.add(Car.class);
 
         // call the initialization of library!
-        CommonServices.initializeFdfDataModel(myModel);
-
-
+        FdfServices.initializeFdfDataModel(myModel);
 
     }
 }
