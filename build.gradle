@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+defaultTasks = ['clean', 'jar']
+
+mainClassName = "com.fdflib.example.BlackCarService"
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+dependencies {
+    compile "org.slf4j:slf4j-api:1.7.12",
+            "com.fdflib:4dflib:1.0-SNAPSHOT",
+            "ch.qos.logback:logback-classic:1.1.2"
+}
