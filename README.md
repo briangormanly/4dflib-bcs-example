@@ -34,5 +34,39 @@ PostgreSQL: (uncomment) and remove / comment out the MySQL ones
     fdfSettings.DB_ROOT_PASSWORD = "mycoolpasssword";
 ````
 
-<h2>Now that it is working, here is what you need to know about how it works</h2>
+<h2>How it works...</h2>
+If you go to MySQL (or whatever database you used, for the purpose of brevity I will be showing mysql commands here.) and issue:
+````SQL
+mysql> show databases
+````
+You should see that there is a new database, called 'blackcardemo'
+Now, if you view the tables, you will see that 4 tables were created..
+````SQL
+mysql> use blackcardemo;
+mysql> show tables;
++------------------------+
+| Tables_in_blackcardemo |
++------------------------+
+| Car                    |
+| Driver                 |
+| FdfSystem              |
+| FdfTenant              |
++------------------------+
+4 rows in set (0.00 sec)
+````
+Note that FdfSystem and FdfTenant are created by the 4DFLib, they are used to make your softare natively multi-tenant and to manage Systems that will connect to your application and there access.
 
+The other 2 tables, Car and Driver were created to persist data related to the 2 classes in the com.fdflib.example.model package and were created because we did the following in the BlackCarService.java main()
+````Java
+// Create a array that will hold the classes that make up our 4df data model
+List<Class> myModel = new ArrayList<>();
+
+// Add our 2 classes
+myModel.add(Driver.class);
+myModel.add(Car.class);
+
+...
+
+// call the initialization of library!
+FdfServices.initializeFdfDataModel(myModel);
+````
