@@ -16,13 +16,23 @@ Congratualtions!
 To configure database settings, setting the root password, changing to using PostgreSQL, or other database connection related details see this file: 4dflib-bcs-example/src/main/java/com/fdflib/example/BlackCarService.java
 Change the following as appropriate to your needs:
 Root username and password:
-    fdfSettings.DB_ROOT_USER = "root";
-    fdfSettings.DB_ROOT_PASSWORD = "";
-
+````Java
+fdfSettings.DB_ROOT_USER = "root";
+fdfSettings.DB_ROOT_PASSWORD = "";
+````
 PostgreSQL: (uncomment) and remove / comment out the MySQL ones
-    //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
-    //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
+````Java
+    // PostgreSQL settings
+    fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
+    fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
+    
+    // MySQL settings
+    //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+    //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+    
+    // Note that you will likely have to set the root password for postgreSQL as well
+    fdfSettings.DB_ROOT_PASSWORD = "mycoolpasssword";
+````
 
-  
-  
-  
+<h2>Now that it is working, here is what you need to know about how it works</h2>
+
