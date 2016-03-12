@@ -9,7 +9,6 @@ public class Driver extends CommonState {
     public String firstName = "";
     public String lastName = "";
     public String phoneNumber = "";
-    public int currentCarId = 0;
 
     public Driver() {
         super();
