@@ -7,7 +7,8 @@ import com.fdflib.service.impl.FdfCommonServices;
 /**
  * Created by brian on 3/12/16.
  */
-public class DriverService implements FdfCommonServices {
+public class DriverService extends FdfCommonServices {
+
     public Driver saveDriver(Driver driver) {
         if(driver != null) {
             return this.save(Driver.class, driver).current;

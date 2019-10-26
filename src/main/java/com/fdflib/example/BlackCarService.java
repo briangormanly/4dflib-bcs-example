@@ -99,7 +99,7 @@ public class BlackCarService {
         ds.saveDriver(sam);
 
         Driver harry = new Driver();
-        harry.firstName = "Sam";
+        harry.firstName = "Harry";
         harry.lastName = "Smith";
         harry.phoneNumber = "212-555-1313";
         harry = ds.saveDriver(harry);
@@ -110,7 +110,12 @@ public class BlackCarService {
         jack.phoneNumber = "212-555-1414";
         jack = ds.saveDriver(jack);
 
-        // create a couple of cars
+        Driver brian = new Driver();
+        jack.firstName = "Brian";
+        jack.lastName = "G";
+        jack.phoneNumber = "845-555-1114";
+        brian = ds.saveDriver(brian);
+
         Car mufasa = new Car();
         mufasa.name = "Mufasa";
         mufasa.color = "Teal";
@@ -120,6 +125,48 @@ public class BlackCarService {
         mufasa.model = "Trans Am";
         mufasa.year = 1983;
         cs.saveCar(mufasa);
+
+        Car ss = new Car();
+        ss.name = "sliver ss";
+        ss.color = "Sliver";
+        ss.isInNeedOfRepair = false;
+        ss.description = "Nice Sleeper";
+        ss.make = CarMake.CHEVY;
+        ss.model = "SS";
+        ss.year = 2014;
+        cs.saveCar(ss);
+
+        Car pbox = new Car();
+        pbox.name = "Brians project";
+        pbox.color = "Gray";
+        pbox.isInNeedOfRepair = false;
+        pbox.description = "Roadster";
+        pbox.make = CarMake.PORSCHE;
+        pbox.model = "Boxster s";
+        pbox.year = 2001;
+        pbox.currentDriverId = brian.id;
+        cs.saveCar(pbox);
+
+        Car pilot = new Car();
+        pilot.name = "Current Family Hauler";
+        pilot.color = "Maroon";
+        pilot.isInNeedOfRepair = false;
+        pilot.description = "Family Fun!";
+        pilot.make = CarMake.HONDA;
+        pilot.model = "Pilot";
+        pilot.year = 2019;
+        pilot.currentDriverId = brian.id;
+        cs.saveCar(pilot);
+
+        Car van = new Car();
+        van.name = "Minivan o death";
+        van.color = "Red";
+        van.isInNeedOfRepair = false;
+        van.description = "POS";
+        van.make = CarMake.CHRYSLER;
+        van.model = "Town & Country";
+        van.year = 2014;
+        cs.saveCar(van);
 
         Car cv1 = new Car();
         cv1.name = "Medallion 1";
@@ -133,10 +180,19 @@ public class BlackCarService {
         cv1.currentDriverId = jack.id;
         cs.saveCar(cv1);
 
+        /*
+            Lets do some stuff with the data
+         */
+
         // since we did not assign anyone to drive mufasa, lets do that now
         mufasa = cs.getCarsByName("Mufasa");
         mufasa.currentDriverId = harry.id;
         cs.saveCar(mufasa);
+
+        // lets also find all cars from the year 2014 and mark that they need repair
+        List<Car> 2014Cars = cs.get
+
+
 
     }
 }

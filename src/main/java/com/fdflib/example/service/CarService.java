@@ -5,6 +5,7 @@ import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.model.util.WhereClause;
 import com.fdflib.persistence.FdfPersistence;
 import com.fdflib.service.impl.FdfCommonServices;
+import com.fdflib.model.util.SqlStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by brian on 3/12/16.
  */
-public class CarService implements FdfCommonServices {
+public class CarService extends FdfCommonServices {
 
     public Car saveCar(Car car) {
         if(car != null) {
@@ -63,34 +64,46 @@ public class CarService implements FdfCommonServices {
         return null;
     }
 
+
+
+    public List<FdfEntity<Car>> getCarsByYearWithHistory(int year) {
+
+        List<FdfEntity<Car>> carsByYear
+                = getEntitiesByValueForPassedField(Car.class, "year", Integer.toString(year));
+
+        return carsByYear;
+    }
+
+    /**
+     * "Control Syntax" Want more control over the query? your are in luck! see com.fdflib.model.util.SqlStatement
+     * https://github.com/briangormanly/4dflib/blob/master/src/main/java/com/fdflib/model/util/SqlStatement.java
+     * contribution credit: Corley Herman
+     *
+     * @param name
+     * @return
+     */
     public FdfEntity<Car> getCarByNameWithHistory(String name) {
         FdfEntity<Car> car = new FdfEntity<>();
 
         if(car != null) {
-            // create the where statement for the query
-            List<WhereClause> whereStatement = new ArrayList<>();
 
-            // check that deleted records are not returned
-            WhereClause whereDf = new WhereClause();
-            whereDf.name = "df";
-            whereDf.operator = WhereClause.Operators.IS_NOT;
-            whereDf.value = "true";
-            whereDf.valueDataType = Boolean.class;
 
-            // add the id check
-            WhereClause whereId = new WhereClause();
-            whereId.conditional = WhereClause.CONDITIONALS.AND;
-            whereId.name = "name";
-            whereId.operator = WhereClause.Operators.EQUAL;
-            whereId.value = name;
-            whereId.valueDataType = String.class;
-
-            whereStatement.add(whereDf);
-            whereStatement.add(whereId);
+            // select specific attributes
+            List<String> selectAttributes = new ArrayList<>();
+            selectAttributes.add("make");
+            selectAttributes.add("model");
+            selectAttributes.add("year");
 
             // do the query
-            List<Car> returnedStates =
-                    FdfPersistence.getInstance().selectQuery(Car.class, null, whereStatement);
+            WhereClause whereName = new WhereClause();
+            whereName.name = "name";
+            whereName.operator = WhereClause.Operators.EQUAL;
+            whereName.value = name;
+            whereName.valueDataType = String.class;
+
+
+
+            List<Car> returnedStates = SqlStatement.build().select(selectAttributes).where(whereName).run(Car.class);
 
             // create a List of entities
             return manageReturnedEntity(returnedStates);
