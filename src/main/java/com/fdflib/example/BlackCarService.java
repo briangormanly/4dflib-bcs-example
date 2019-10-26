@@ -5,6 +5,7 @@ import com.fdflib.example.model.CarMake;
 import com.fdflib.example.model.Driver;
 import com.fdflib.example.service.CarService;
 import com.fdflib.example.service.DriverService;
+import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.persistence.database.DatabaseUtil;
 import com.fdflib.service.FdfServices;
 import com.fdflib.util.FdfSettings;
@@ -34,7 +35,11 @@ public class BlackCarService {
         FdfServices.initializeFdfDataModel(myModel);
 
         // insert some demo data
-        insertSomeData();
+        try {
+            insertSomeData();
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // do a few queries and output the results
 
@@ -87,7 +92,7 @@ public class BlackCarService {
 
     }
 
-    private static void insertSomeData() {
+    private static void insertSomeData() throws InterruptedException {
         DriverService ds = new DriverService();
         CarService cs = new CarService();
 
@@ -186,11 +191,54 @@ public class BlackCarService {
 
         // since we did not assign anyone to drive mufasa, lets do that now
         mufasa = cs.getCarsByName("Mufasa");
+        // output the current driver id
+        System.out.println("Mufasa Driver Id (shoud be empty): " + mufasa.currentDriverId);
         mufasa.currentDriverId = harry.id;
         cs.saveCar(mufasa);
 
-        // lets also find all cars from the year 2014 and mark that they need repair
-        List<Car> 2014Cars = cs.get
+        // now try again
+        mufasa = cs.getCarsByName("Mufasa");
+        System.out.println("Mufasa Driver Id: " + mufasa.currentDriverId); // should have an id now!
+
+
+        // lets also find all cars from the year 2014
+        List<Car> cars14 = cs.getCarsByYear(2014);
+        for(Car car: cars14) {
+            System.out.println("2014 car: " + car.name + " repair status: " + car.isInNeedOfRepair);
+        }
+
+        // Wait a few seconds
+        Thread.sleep(6000);
+
+        // change all 2014 cars status to needing repair
+        for(Car car: cars14) {
+            car.isInNeedOfRepair = true;
+            cs.saveCar(car);
+        }
+
+        // Wait a few seconds
+        Thread.sleep(6000);
+
+        // get one of the cars and change it back
+        List<Car> cars14new = cs.getCarsByYear(2014);
+        cars14new.get(0).isInNeedOfRepair = false;
+        cs.saveCar(cars14new.get(0));
+
+        // re-run the query and output the results again, this time with history so we can see the change!
+        List<FdfEntity<Car>> cars14withHistory = cs.getCarsByYearWithHistory(2014);
+        for(FdfEntity<Car> carWithHistory: cars14withHistory) {
+            // first output the cars current status
+            System.out.println("2014 car [after update]: " + carWithHistory.current.name
+                    + " [current] repair status: " + carWithHistory.current.isInNeedOfRepair);
+
+            System.out.println("----- History -----");
+            // Now show the historical records for the car
+            for(Car carHistory : carWithHistory.history) {
+                System.out.println("Start time: " + carHistory.arsd + " End time: " + carHistory.ared + " repair status: " + carHistory.isInNeedOfRepair);
+            }
+            System.out.println("___________________");
+
+        }
 
 
 
