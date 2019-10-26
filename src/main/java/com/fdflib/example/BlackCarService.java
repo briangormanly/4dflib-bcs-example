@@ -116,9 +116,9 @@ public class BlackCarService {
         jack = ds.saveDriver(jack);
 
         Driver brian = new Driver();
-        jack.firstName = "Brian";
-        jack.lastName = "G";
-        jack.phoneNumber = "845-555-1114";
+        brian.firstName = "Brian";
+        brian.lastName = "G";
+        brian.phoneNumber = "845-555-1114";
         brian = ds.saveDriver(brian);
 
         Car mufasa = new Car();
@@ -129,6 +129,7 @@ public class BlackCarService {
         mufasa.make = CarMake.PONTIAC;
         mufasa.model = "Trans Am";
         mufasa.year = 1983;
+        mufasa.currentDriverId = brian.id;
         cs.saveCar(mufasa);
 
         Car ss = new Car();
@@ -149,7 +150,6 @@ public class BlackCarService {
         pbox.make = CarMake.PORSCHE;
         pbox.model = "Boxster s";
         pbox.year = 2001;
-        pbox.currentDriverId = brian.id;
         cs.saveCar(pbox);
 
         Car pilot = new Car();
@@ -180,7 +180,7 @@ public class BlackCarService {
         cv1.description = "NYC has the best taxis";
         cv1.make = CarMake.FORD;
         cv1.model = "LTD Crown Victoria";
-        cv1.year = 2000;
+        cv1.year = 2001;
         // assign jack to the this car
         cv1.currentDriverId = jack.id;
         cs.saveCar(cv1);
@@ -189,29 +189,41 @@ public class BlackCarService {
             Lets do some stuff with the data
          */
 
-        // since we did not assign anyone to drive mufasa, lets do that now
-        mufasa = cs.getCarsByName("Mufasa");
+        // since we did not assign anyone to drive Brians project, lets do that now
+        pbox = cs.getCarsByName("Brians Project");
         // output the current driver id
-        System.out.println("Mufasa Driver Id (shoud be empty): " + mufasa.currentDriverId);
-        mufasa.currentDriverId = harry.id;
-        cs.saveCar(mufasa);
+        System.out.println("Car: " + pbox.model + " Driver Id (shoud be empty): " + pbox.currentDriverId);
+
+        // assign me to drive
+        pbox.currentDriverId = brian.id;
+        // Wait a few seconds
+        Thread.sleep(3000);
+        cs.saveCar(pbox);
 
         // now try again
-        mufasa = cs.getCarsByName("Mufasa");
-        System.out.println("Mufasa Driver Id: " + mufasa.currentDriverId); // should have an id now!
+        pbox = cs.getCarsByName("Brians Project");;
+        System.out.println("Car: " + pbox.model + " Driver Id: "
+                + pbox.currentDriverId + " [assigned!]"); // should have an id now!
 
 
-        // lets also find all cars from the year 2014
-        List<Car> cars14 = cs.getCarsByYear(2014);
-        for(Car car: cars14) {
-            System.out.println("2014 car: " + car.name + " repair status: " + car.isInNeedOfRepair);
+        // lets also find all cars from the year 2001
+        List<Car> cars01 = cs.getCarsByYear(2001);
+        for(Car car: cars01) {
+            // see if there should be a driver and get the driver if so!
+            if(car.currentDriverId >= 0) {
+                car.currentDriver = ds.getDriverById(car.currentDriverId);
+            }
+            String driver = (car.currentDriver != null) ? car.currentDriver.firstName : "no driver";
+
+            System.out.println("2001 car: " + car.name + " which is a " + car.make + " " + car.model + " driven by: "
+                    + driver + " has a current repair status: " + car.isInNeedOfRepair);
         }
 
         // Wait a few seconds
         Thread.sleep(6000);
 
         // change all 2014 cars status to needing repair
-        for(Car car: cars14) {
+        for(Car car: cars01) {
             car.isInNeedOfRepair = true;
             cs.saveCar(car);
         }
@@ -220,27 +232,35 @@ public class BlackCarService {
         Thread.sleep(6000);
 
         // get one of the cars and change it back
-        List<Car> cars14new = cs.getCarsByYear(2014);
-        cars14new.get(0).isInNeedOfRepair = false;
-        cs.saveCar(cars14new.get(0));
+        List<Car> cars01new = cs.getCarsByYear(2001);
+        cars01new.get(0).isInNeedOfRepair = false;
+        cs.saveCar(cars01new.get(0));
+
+        System.out.println("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
         // re-run the query and output the results again, this time with history so we can see the change!
-        List<FdfEntity<Car>> cars14withHistory = cs.getCarsByYearWithHistory(2014);
-        for(FdfEntity<Car> carWithHistory: cars14withHistory) {
+        List<FdfEntity<Car>> cars01withHistory = cs.getCarsByYearWithHistory(2001);
+        for(FdfEntity<Car> carWithHistory: cars01withHistory) {
             // first output the cars current status
-            System.out.println("2014 car [after update]: " + carWithHistory.current.name
-                    + " [current] repair status: " + carWithHistory.current.isInNeedOfRepair);
+            System.out.println("2001 cars [after updates]: " + carWithHistory.current.name + " which is a "
+                    + carWithHistory.current.make + " " + carWithHistory.current.model
+                    + " has a [current] repair status: " + carWithHistory.current.isInNeedOfRepair);
 
             System.out.println("----- History -----");
             // Now show the historical records for the car
             for(Car carHistory : carWithHistory.history) {
-                System.out.println("Start time: " + carHistory.arsd + " End time: " + carHistory.ared + " repair status: " + carHistory.isInNeedOfRepair);
+                System.out.println("Start time: " + carHistory.arsd + " End time: " + carHistory.ared
+                        + " repair status: " + carHistory.isInNeedOfRepair + " it was driven by userid "
+                        + carHistory.currentDriverId);
             }
             System.out.println("___________________");
 
         }
 
-
-
+        // for fun lets try a custom query
+        Car myBoxster = cs.customCarQuery("Brians project").current;
+        System.out.println("\n^^^^^^^^^^^^^^^^ Custom Query Results ^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("year make and model: " + myBoxster.year + " " + myBoxster.make + " " + myBoxster.model);
+        System.out.println("name: " + myBoxster.name + " Desc: " + myBoxster.description);
     }
 }

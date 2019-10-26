@@ -17,14 +17,12 @@ public class CarService extends FdfCommonServices {
 
     public Car saveCar(Car car) {
         if(car != null) {
-            System.out.println("Incomming id : " + car.id);
             // name is unique for car so we are going to check for existing one first
             Car existingCar = getCarsByName(car.name);
             if(existingCar != null) {
                 // if a match is found, just set the id to match the existing one and it will automatically update
                 // instead of insert.
                 car.id = existingCar.id;
-                System.out.println("Found id: " + car.id);
             }
 
             if (car != null) {
@@ -70,7 +68,10 @@ public class CarService extends FdfCommonServices {
      */
     public FdfEntity<Car> getCarsByNameWithHistory(String name) {
         List<FdfEntity<Car>> carsWithHistory = getEntitiesByValueForPassedField(Car.class, "name", name);
-        return carsWithHistory.get(0);
+        if(carsWithHistory.size() > 0) {
+            return carsWithHistory.get(0);
+        }
+        return null;
     }
 
     /*
@@ -79,7 +80,7 @@ public class CarService extends FdfCommonServices {
      */
     public Car getCarsByName(String name) {
         FdfEntity<Car> carsWithHistory = getCarsByNameWithHistory(name);
-        if(carsWithHistory.current != null) {
+        if(carsWithHistory != null && carsWithHistory.current != null) {
             return carsWithHistory.current;
         }
         return null;
@@ -100,7 +101,7 @@ public class CarService extends FdfCommonServices {
     public List<Car> getCarsByYear(int year) {
 
         List<FdfEntity<Car>> carsByYearWithHistory = getCarsByYearWithHistory(year);
-        List<Car> cars = null;
+        List<Car> cars = new ArrayList<>();
         for(FdfEntity<Car> carWithHistory: carsByYearWithHistory) {
             if(carWithHistory.current != null) {
                 cars.add(carWithHistory.current);
@@ -129,13 +130,7 @@ public class CarService extends FdfCommonServices {
             whereName.value = name;
             whereName.valueDataType = String.class;
 
-            // do the projection
-            List<String> selectAttributes = new ArrayList<>();
-            selectAttributes.add("make");
-            selectAttributes.add("model");
-            selectAttributes.add("year");
-
-            List<Car> returnedStates = SqlStatement.build().select(selectAttributes).where(whereName).run(Car.class);
+            List<Car> returnedStates = SqlStatement.build().where(whereName).run(Car.class);
 
             // create a List of entities
             return manageReturnedEntity(returnedStates);
