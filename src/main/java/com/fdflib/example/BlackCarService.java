@@ -8,6 +8,7 @@ import com.fdflib.example.service.DriverService;
 import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.persistence.database.DatabaseUtil;
 import com.fdflib.service.FdfServices;
+import com.fdflib.service.impl.FdfCommonServices;
 import com.fdflib.util.FdfSettings;
 import javafx.scene.paint.Color;
 
@@ -59,26 +60,30 @@ public class BlackCarService {
         //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // MySQL settings
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // Database encoding
         fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
 
         // Application Database name
-        fdfSettings.DB_NAME = "blackcardemo";
+        fdfSettings.DB_NAME = "blackcarclassdemo";
 
         // Database host
         fdfSettings.DB_HOST = "localhost";
 
         // Database user information
-        fdfSettings.DB_USER = "blackcar";
+        fdfSettings.DB_USER = "blackcardemo";
         fdfSettings.DB_PASSWORD = "blackcarpass";
 
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
-        fdfSettings.DB_ROOT_USER = "root";
-        fdfSettings.DB_ROOT_PASSWORD = "";
+        //fdfSettings.DB_ROOT_USER = "root";
+        //fdfSettings.DB_ROOT_PASSWORD = "";
+        FdfSettings.DB_ROOT_USER = "postgres";
+        FdfSettings.DB_ROOT_PASSWORD = "";
 
         // set the default system information
         fdfSettings.DEFAULT_SYSTEM_NAME = "Black Car Core API";
@@ -130,6 +135,7 @@ public class BlackCarService {
         mufasa.model = "Trans Am";
         mufasa.year = 1983;
         mufasa.currentDriverId = brian.id;
+        mufasa.isOutWorking = false;
         cs.saveCar(mufasa);
 
         Car ss = new Car();
@@ -140,6 +146,7 @@ public class BlackCarService {
         ss.make = CarMake.CHEVY;
         ss.model = "SS";
         ss.year = 2014;
+        ss.isOutWorking = false;
         cs.saveCar(ss);
 
         Car pbox = new Car();
@@ -150,6 +157,7 @@ public class BlackCarService {
         pbox.make = CarMake.PORSCHE;
         pbox.model = "Boxster s";
         pbox.year = 2001;
+        pbox.isOutWorking = false;
         cs.saveCar(pbox);
 
         Car pilot = new Car();
@@ -161,6 +169,7 @@ public class BlackCarService {
         pilot.model = "Pilot";
         pilot.year = 2019;
         pilot.currentDriverId = brian.id;
+        pilot.isOutWorking = false;
         cs.saveCar(pilot);
 
         Car van = new Car();
@@ -171,6 +180,7 @@ public class BlackCarService {
         van.make = CarMake.CHRYSLER;
         van.model = "Town & Country";
         van.year = 2014;
+        van.isOutWorking = false;
         cs.saveCar(van);
 
         Car cv1 = new Car();
@@ -181,6 +191,7 @@ public class BlackCarService {
         cv1.make = CarMake.FORD;
         cv1.model = "LTD Crown Victoria";
         cv1.year = 2001;
+        cv1.isOutWorking = false;
         // assign jack to the this car
         cv1.currentDriverId = jack.id;
         cs.saveCar(cv1);
@@ -201,7 +212,7 @@ public class BlackCarService {
         cs.saveCar(pbox);
 
         // now try again
-        pbox = cs.getCarsByName("Brians Project");;
+        pbox = cs.getCarsByName("Brians project");
         System.out.println("Car: " + pbox.model + " Driver Id: "
                 + pbox.currentDriverId + " [assigned!]"); // should have an id now!
 
@@ -222,7 +233,7 @@ public class BlackCarService {
         // Wait a few seconds
         Thread.sleep(6000);
 
-        // change all 2014 cars status to needing repair
+        // change all 2001 cars status to needing repair
         for(Car car: cars01) {
             car.isInNeedOfRepair = true;
             cs.saveCar(car);
