@@ -9,7 +9,6 @@ import com.fdflib.model.entity.FdfEntity;
 import com.fdflib.persistence.database.DatabaseUtil;
 import com.fdflib.service.FdfServices;
 import com.fdflib.util.FdfSettings;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +54,12 @@ public class BlackCarService {
 
         // set the database type and name and connection information
         // PostgreSQL settings
-        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
-        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
+        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
+        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // MySQL settings
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
 
         // Database encoding
         fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
@@ -77,7 +76,7 @@ public class BlackCarService {
 
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
-        fdfSettings.DB_ROOT_USER = "root";
+        fdfSettings.DB_ROOT_USER = "postgres";
         fdfSettings.DB_ROOT_PASSWORD = "";
 
         // set the default system information
@@ -189,10 +188,15 @@ public class BlackCarService {
             Lets do some stuff with the data
          */
 
+        Thread.sleep(3000);
+
         // since we did not assign anyone to drive Brians project, lets do that now
-        pbox = cs.getCarsByName("Brians Project");
+        pbox = cs.getCarsByName("Brians project");
         // output the current driver id
-        System.out.println("Car: " + pbox.model + " Driver Id (shoud be empty): " + pbox.currentDriverId);
+        if(pbox != null) {
+            System.out.println("Car: " + pbox.model + " Driver Id (shoud be empty): " + pbox.currentDriverId);
+        }
+        
 
         // assign me to drive
         pbox.currentDriverId = brian.id;
@@ -201,7 +205,7 @@ public class BlackCarService {
         cs.saveCar(pbox);
 
         // now try again
-        pbox = cs.getCarsByName("Brians Project");;
+        pbox = cs.getCarsByName("Brians project");;
         System.out.println("Car: " + pbox.model + " Driver Id: "
                 + pbox.currentDriverId + " [assigned!]"); // should have an id now!
 
