@@ -69,6 +69,7 @@ public class BlackCarService {
 
         // Database host
         fdfSettings.DB_HOST = "localhost";
+        fdfSettings.DB_PORT = 3306;
 
         // Database user information
         fdfSettings.DB_USER = "blackcar";
