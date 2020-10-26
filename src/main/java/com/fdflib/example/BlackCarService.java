@@ -54,12 +54,12 @@ public class BlackCarService {
 
         // set the database type and name and connection information
         // PostgreSQL settings
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // MySQL settings
-        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
-        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
 
         // Database encoding
         fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
@@ -76,7 +76,8 @@ public class BlackCarService {
 
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
-        fdfSettings.DB_ROOT_USER = "postgres";
+        //fdfSettings.DB_ROOT_USER = "postgres";    // Postgres defalt
+        fdfSettings.DB_ROOT_USER = "root";          // mysql default
         fdfSettings.DB_ROOT_PASSWORD = "";
 
         // set the default system information
@@ -88,6 +89,10 @@ public class BlackCarService {
         fdfSettings.DEFAULT_TENANT_DESRIPTION = "Main system Tenant";
         fdfSettings.DEFAULT_TENANT_IS_PRIMARY = true;
         fdfSettings.DEFAULT_TENANT_WEBSITE = "http://www.4dflib.com";
+
+        // local dev, no ssl
+        fdfSettings.USE_SSL = false;
+        
 
     }
 
