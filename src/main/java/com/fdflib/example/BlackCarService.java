@@ -57,9 +57,26 @@ public class BlackCarService {
         //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
         //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
+        // postgres default root user
+        // root user settings are only required for initial database creation.  Once the database is created you
+        // should remove this information
+        //fdfSettings.DB_ROOT_USER = "postgres";
+
         // MySQL settings
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+
+        // MariaDB settings
         fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MARIADB;
         fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MARIADB;
+
+        // MariaDB and MySQL default
+        // root user settings are only required for initial database creation.  Once the database is created you
+        // should remove this information
+        fdfSettings.DB_ROOT_USER = "root";
+
+        // root user password
+        fdfSettings.DB_ROOT_PASSWORD = "";
 
         // Database encoding
         fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
@@ -69,17 +86,18 @@ public class BlackCarService {
 
         // Database host
         fdfSettings.DB_HOST = "localhost";
-        fdfSettings.DB_PORT = 3306;
+
+        // Port is not required for DB defaults can be changed when needed
+        // fdfSettings.DB_PORT = 3306;
 
         // Database user information
         fdfSettings.DB_USER = "blackcar";
         fdfSettings.DB_PASSWORD = "blackcarpass";
 
-        // root user settings are only required for initial database creation.  Once the database is created you
-        // should remove this information
-        //fdfSettings.DB_ROOT_USER = "postgres";    // Postgres defalt
-        fdfSettings.DB_ROOT_USER = "root";          // mysql default
-        fdfSettings.DB_ROOT_PASSWORD = "";
+
+
+
+
 
         // set the default system information
         fdfSettings.DEFAULT_SYSTEM_NAME = "Black Car Core API";
