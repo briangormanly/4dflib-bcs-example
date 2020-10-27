@@ -18,6 +18,6 @@ repositories {
 
 dependencies {
     compile "org.slf4j:slf4j-api:1.7.12",
-            "com.fdflib:4dflib:1.3.4-SNAPSHOT",
+            "com.fdflib:4dflib:1.4.0-SNAPSHOT",
             "ch.qos.logback:logback-classic:1.1.2"
 }

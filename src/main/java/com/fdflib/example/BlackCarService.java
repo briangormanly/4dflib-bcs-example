@@ -58,8 +58,8 @@ public class BlackCarService {
         //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // MySQL settings
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
+        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MARIADB;
+        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MARIADB;
 
         // Database encoding
         fdfSettings.DB_ENCODING = DatabaseUtil.DatabaseEncoding.UTF8;
