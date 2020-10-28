@@ -4,9 +4,9 @@ This is an example application showing how you can use 4dflib (https://github.co
 
 <h3>Instructions</h3>
 <strong>prerequisites</strong>
- * Assumes MariaDB, PostgreSQL or MySQL 5.7 is running, and no root password is set (default).  If this is true, you may run, else see 'Database Settings' Below
- * Java 8 JRE is available 
- * You have Git and Gradle installed
+- Assumes MariaDB, PostgreSQL or MySQL 5.7 is running, and no root password is set (default).  If this is true, you may run, else see 'Database Settings' Below
+- Java 8 JRE is available 
+- You have Git and Gradle installed
 
 <strong>Clone and Run!</strong>
 clone this repository: git clone https://github.com/briangormanly/4dflib-bcs-example.git
