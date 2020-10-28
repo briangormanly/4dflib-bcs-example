@@ -4,9 +4,9 @@ This is an example application showing how you can use 4dflib (https://github.co
 
 <h3>Instructions</h3>
 <strong>prerequisites</strong>
-  * Assumes MySQL is running, and no root password is set (default).  If this is true, you may run, else see 'Database Settings' Below
-  * Java 8 JRE is available 
-  * You have Git and Gradle installed
+ * Assumes MariaDB, PostgreSQL or MySQL 5.7 is running, and no root password is set (default).  If this is true, you may run, else see 'Database Settings' Below
+ * Java 8 JRE is available 
+ * You have Git and Gradle installed
 
 <strong>Clone and Run!</strong>
 clone this repository: git clone https://github.com/briangormanly/4dflib-bcs-example.git
@@ -28,7 +28,11 @@ PostgreSQL: (uncomment) and remove / comment out the MySQL ones
     fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
     fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
     
-    // MySQL settings
+    // MariaDB settings
+    //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MARIADB;
+    //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MARIADB;
+    
+    // MySQL settings Version 5.7 only!!!!!!!! (no support for version 8)
     //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
     //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
     
@@ -37,7 +41,7 @@ PostgreSQL: (uncomment) and remove / comment out the MySQL ones
 ````
 
 <h2>How it works...</h2>
-If you go to MySQL (or whatever database you used, for the purpose of brevity I will be showing mysql commands here.) and issue:
+If you go to MariaDB (or whatever database you used, for the purpose of brevity I will be showing Maria / MySQL commands here.) and issue:
 ````SQL
 mysql> show databases
 ````
