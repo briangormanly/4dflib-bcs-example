@@ -54,8 +54,8 @@ public class BlackCarService {
 
         // set the database type and name and connection information
         // PostgreSQL settings
-        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
-        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
+        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.POSTGRES;
+        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_POSTGRES;
 
         // postgres default root user
         // root user settings are only required for initial database creation.  Once the database is created you
