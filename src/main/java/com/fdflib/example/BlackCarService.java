@@ -60,20 +60,20 @@ public class BlackCarService {
         // postgres default root user
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
-        //fdfSettings.DB_ROOT_USER = "postgres";
+        fdfSettings.DB_ROOT_USER = "postgres";
 
         // MySQL settings
         //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MYSQL;
         //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MYSQL;
 
         // MariaDB settings
-        fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MARIADB;
-        fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MARIADB;
+        //fdfSettings.PERSISTENCE = DatabaseUtil.DatabaseType.MARIADB;
+        //fdfSettings.DB_PROTOCOL = DatabaseUtil.DatabaseProtocol.JDBC_MARIADB;
 
         // MariaDB and MySQL default
         // root user settings are only required for initial database creation.  Once the database is created you
         // should remove this information
-        fdfSettings.DB_ROOT_USER = "root";
+        //fdfSettings.DB_ROOT_USER = "root";
 
         // root user password
         fdfSettings.DB_ROOT_PASSWORD = "";
